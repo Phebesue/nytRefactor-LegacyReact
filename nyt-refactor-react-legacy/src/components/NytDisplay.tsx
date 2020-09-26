@@ -1,10 +1,28 @@
-import React, { FunctionComponent } from "react";
+import React, { FunctionComponent,  } from "react";
 
 type AcceptedProps = {
-  results: [];
-  changePage: any;
+  results: Results[];
+  changePage: (a:React.MouseEvent<HTMLElement>, b: string)=>void;
 };
-// interface Results {y
+interface Results {
+  _id:number,
+  headline:Headline,
+  multimedia: Multimedia[],
+  snippet:string,
+  keywords:Keywords[],
+  web_url:string
+}
+interface Headline{
+  main:string
+}
+interface Multimedia{
+  url: string
+}
+interface Keywords{
+  name:string,
+  value:string
+}
+
 
 
 const NytDisplay: FunctionComponent<AcceptedProps> = (props) => {
@@ -20,9 +38,9 @@ const NytDisplay: FunctionComponent<AcceptedProps> = (props) => {
           <br />
         </div>
       <div>
-        {props.results.map((result:any) => {
+        {props.results.map((result:Results) => {
           return (
-            <div key={result._id}>
+            <article key={result._id}>
               <h2>{result.headline.main}</h2>
               {result.multimedia.length > 1 ? (
                 <img
@@ -38,16 +56,17 @@ const NytDisplay: FunctionComponent<AcceptedProps> = (props) => {
                 {result.keywords.length > 0 ? " Keywords: " : ""}
               </p>
               <ul>
-                {result.keywords.map((keyword: any) => (
+                {result.keywords.map((keyword: Keywords) => (
                   <li key={keyword.value}>{keyword.value}</li>
                 ))}
               </ul>
               <a href={result.web_url}>
                 <button className="read">Read It</button>
               </a>
-            </div>
+            </article>
           );
         })}
+      </div>
        <div className="buttons">
           <button className="prev" onClick={(e) => props.changePage(e, "down")}>
             Previous 10
@@ -56,7 +75,6 @@ const NytDisplay: FunctionComponent<AcceptedProps> = (props) => {
             Next 10
           </button>
         </div>
-      </div>
     </div>
   );
 };

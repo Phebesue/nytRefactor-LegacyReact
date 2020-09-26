@@ -47,12 +47,12 @@ export default class NytLegacy extends Component<AcceptedProps, SearchState> {
       })
       .catch((err) => console.log(err));
   };
-  handleSubmit = (event: any) => {
+  handleSubmit = (event: React.FormEvent<HTMLElement>) => {
     event.preventDefault();
     pageNumber = 0;
     this.fetchResults();
   };
-  changePageNumber = (event: any, direction: string) => {
+  changePageNumber = (event: React.FormEvent<HTMLElement>, direction: string) => {
     event.preventDefault();
     if (direction === "down") {
       if (pageNumber > 0) {
@@ -73,7 +73,7 @@ export default class NytLegacy extends Component<AcceptedProps, SearchState> {
         <div className="controls">
           <h1>NY Times article search</h1>
           <form onSubmit={(e) => this.handleSubmit(e)}>
-            <span>Enter a single search term (required) : </span>
+            Enter a single search term (required) : 
             <input
               type="text"
               name="search"
@@ -81,7 +81,7 @@ export default class NytLegacy extends Component<AcceptedProps, SearchState> {
               required
             />
             <br />
-            <span>Enter a start date: </span>
+           Enter a start date: 
             <input
               type="date"
               name="startDate"
@@ -89,7 +89,7 @@ export default class NytLegacy extends Component<AcceptedProps, SearchState> {
               onChange={(e) => this.setState({ startDate: e.target.value })}
             />
             <br />
-            <span>Enter an end date: </span>
+           Enter an end date: 
             <input
               type="date"
               name="endDate"
@@ -99,13 +99,15 @@ export default class NytLegacy extends Component<AcceptedProps, SearchState> {
             <br />
             <button className="submit">Submit search</button>
           </form>
-          {this.state.results.length > 0 ? (
-            <NytDisplay
-              results={this.state.results}
-              changePage={this.changePageNumber}
-            />
-          ) : null}
-        </div>
+          </div>
+          <div className="results">
+            {this.state.results.length > 0 ? (
+              <NytDisplay
+                results={this.state.results}
+                changePage={this.changePageNumber}
+              />
+            ) : null}
+          </div>
       </div>
     );
   }
